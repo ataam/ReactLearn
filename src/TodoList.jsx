@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function TodoList() {
-  const [tasks, setTasks] = useState(["12312", "rfasdasd", "312312"]);
+const [tasks, setTasks] = useState({text: '', completed : false});
   const [newTask, setNewTask] = useState("");
 
   function HandleInputChange() {
@@ -10,9 +10,14 @@ function TodoList() {
 
   function AddTask() {
     if (newTask.trim() !== "") {
-      setTasks((t) => [...t, newTask]);
+      setTasks((t) => [...t,{text: newTask, completed: false }]);
       setNewTask("");
     }
+  }
+
+  function EditTask(index) {
+    const UpdatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(UpdatedTasks);
   }
 
   function DeleteTask(index) {
@@ -56,9 +61,17 @@ function TodoList() {
         </button>
       </div>
       <ol>
+      
         {tasks.map((task, index) => (
           <li key={index}>
+            <input type="checkbox"
+            onClick={tasks.style}/>
             <span className="text">{task}</span>
+            
+            <button className="EditButton" onClick={() => EditTask(index)}>
+              {" "}
+              Edit
+            </button>
             <button className="DeleteButton" onClick={() => DeleteTask(index)}>
               {" "}
               Delete
@@ -74,8 +87,10 @@ function TodoList() {
               {" "}
               Down
             </button>
+        
           </li>
         ))}
+        
       </ol>
     </div>
   );
